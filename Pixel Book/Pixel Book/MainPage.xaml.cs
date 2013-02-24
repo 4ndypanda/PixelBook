@@ -181,6 +181,10 @@ namespace Pixel_Book
             return Globals.animation[Globals.curFrame][(i * Globals.bitmap.PixelWidth + j) * 4] == Globals.color.B && Globals.animation[Globals.curFrame][(i * Globals.bitmap.PixelWidth + j) * 4 + 1] == Globals.color.G && Globals.animation[Globals.curFrame][(i * Globals.bitmap.PixelWidth + j) * 4 + 2] == Globals.color.R && Globals.animation[Globals.curFrame][(i * Globals.bitmap.PixelWidth + j) * 4 + 3] == Globals.color.A;
 
         }
+        private Boolean isSameColor(byte B, byte G, byte R, byte A, Color c)
+        {
+            return A == c.A && R == c.R && G == c.G && B == c.B;
+        }
         private void editTile()
         {
             if (outOfBounds())
@@ -212,6 +216,10 @@ namespace Pixel_Book
             clickHold = true;
             curPoint = e.GetCurrentPoint(display).Position;
             editTile();
+            topleft = new Point(Math.Floor(curPoint.X / tileSize) * tileSize, Math.Floor(curPoint.Y / tileSize) * tileSize);
+
+            flood3((int)(topleft.Y * (int)display.Width + topleft.X), Globals.color, Globals.color);
+            Globals.WriteToDisplay(Globals.curFrame);
         }
 
         private void display_PointerMoved(object sender, PointerRoutedEventArgs e)
@@ -257,6 +265,65 @@ namespace Pixel_Book
             Globals.delay.RemoveAt(Globals.curFrame);
             Globals.curFrame= ((Globals.curFrame-1+Globals.animation.Count)%Globals.animation.Count);
             Globals.WriteToDisplay(Globals.curFrame);
+        }
+        private void flood3(int p, Color replacementColor, Color targetColor) //Scanline algorithm
+        {
+            if (replacementColor == targetColor) return;
+
+
+            Queue<int> q = new Queue<int>();
+            q.Enqueue(p);
+
+
+        //    byte[] Globals.animation[Globals.curFrame] = Globals.animation[Globals.curFrame];
+
+            int pixelCt = Globals.animation[Globals.curFrame].Length;
+
+
+            while (q.Count > 0)
+            {
+                int c = q.Dequeue();
+                if (isSameColor(Globals.animation[Globals.curFrame][c],Globals.animation[Globals.curFrame][c+1],Globals.animation[Globals.curFrame][c+2],Globals.animation[Globals.curFrame][c+3],targetColor)) continue;
+
+
+                int stop = c - c %(int) display.Width; //leftmost point of that particular row
+                for (int a = c; a >= stop && isSameColor(Globals.animation[Globals.curFrame][a],Globals.animation[Globals.curFrame][a+1],Globals.animation[Globals.curFrame][a+2],Globals.animation[Globals.curFrame][a+3], targetColor); a-=4)
+                {
+                    Globals.animation[Globals.curFrame][a] = replacementColor.B;
+                    Globals.animation[Globals.curFrame][a+1]= replacementColor.G;
+                    Globals.animation[Globals.curFrame][a+2]= replacementColor.R;
+                    Globals.animation[Globals.curFrame][a+3]= replacementColor.A;
+
+
+                    if (a > (int)display.Width && isSameColor(Globals.animation[Globals.curFrame][a - 4*(int)display.Width] ,Globals.animation[Globals.curFrame][a - 4*(int)display.Width+1],Globals.animation[Globals.curFrame][a - 4*(int)display.Width+2],Globals.animation[Globals.curFrame][a - 4*(int)display.Width+3], targetColor)) //up
+                        q.Enqueue(a - 4*(int)display.Width);
+
+
+                    if (a + 4*(int)display.Width < pixelCt && isSameColor(Globals.animation[Globals.curFrame][a + 4*(int)display.Width] ,Globals.animation[Globals.curFrame][a + 4*(int)display.Width+1],Globals.animation[Globals.curFrame][a + 4*(int)display.Width+2],Globals.animation[Globals.curFrame][a + 4*(int)display.Width+3], targetColor)) //down
+                        q.Enqueue(a + 4*(int)display.Width);
+                }
+
+
+                stop += 4*(int)display.Width;
+                for (int a = c + 1; a < stop && isSameColor(Globals.animation[Globals.curFrame][a],Globals.animation[Globals.curFrame][a+1],Globals.animation[Globals.curFrame][a+2],Globals.animation[Globals.curFrame][a+3], targetColor); ++a)
+                {
+                    Globals.animation[Globals.curFrame][a] = replacementColor.B;
+                    Globals.animation[Globals.curFrame][a+1]= replacementColor.G;
+                    Globals.animation[Globals.curFrame][a+2]= replacementColor.R;
+                    Globals.animation[Globals.curFrame][a+3]= replacementColor.A;
+
+
+                    if (a > (int)display.Width && isSameColor(Globals.animation[Globals.curFrame][a - 4*(int)display.Width] ,Globals.animation[Globals.curFrame][a - 4*(int)display.Width+1],Globals.animation[Globals.curFrame][a - 4*(int)display.Width+2],Globals.animation[Globals.curFrame][a - 4*(int)display.Width+3], targetColor)) //up
+                        q.Enqueue(a - 4*(int)display.Width);
+
+
+                    if (a + 4*(int)display.Width < pixelCt && isSameColor(Globals.animation[Globals.curFrame][a + 4*(int)display.Width] ,Globals.animation[Globals.curFrame][a + 4*(int)display.Width+1],Globals.animation[Globals.curFrame][a + 4*(int)display.Width+2],Globals.animation[Globals.curFrame][a + 4*(int)display.Width+3], targetColor)) //down
+                        q.Enqueue(a + 4*(int)display.Width);
+                }
+            }
+
+
+            return;
         }
 
     }
