@@ -8,6 +8,8 @@
     mc:Ignorable="d">
 
     <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
+        <Image x:Name="bg2" HorizontalAlignment="Center" Height="479" Margin="1,161,0,0" VerticalAlignment="Top" Width="1367" Source="Assets/blanktile480x1366.png"/>
+
         <Image x:Name="movie" HorizontalAlignment="Left" Height="480" VerticalAlignment="Top" Width="1366" Margin="0,160,0,0"/>
         <Button x:Name="Back" Content="Back" HorizontalAlignment="Left" Margin="1149,695,0,0" VerticalAlignment="Top" Click="Back_Click"/>
         <Button x:Name="aButton" Content="Animate" HorizontalAlignment="Left" Margin="772,695,0,0" VerticalAlignment="Top" Click="aButton_Click"/>

@@ -45,7 +45,9 @@
                         </Button.Background>
                     </Button>
                     <Button x:Name="Undo" Style="{StaticResource UndoAppBarButtonStyle}" Tag="undo" />
-                    <Button x:Name="Discard" Style="{StaticResource DiscardAppBarButtonStyle}" />
+                    <Button x:Name="Clear" Style="{StaticResource DiscardAppBarButtonStyle}" Click="Clear_Click" />
+                    <Button x:Name="Discard" Style="{StaticResource DiscardAppBarButtonStyle}" Click="Discard_Click" />
+
                     <Button x:Name="More" Style="{StaticResource MoreAppBarButtonStyle}" Click="More_Click_1"/>
                     <StackPanel.ChildrenTransitions>
                         <TransitionCollection>

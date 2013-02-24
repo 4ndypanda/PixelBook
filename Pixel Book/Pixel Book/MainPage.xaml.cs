@@ -174,14 +174,20 @@ namespace Pixel_Book
         {
             return curPoint.X < 0 || curPoint.X >= display.Width || curPoint.Y < 0 || curPoint.Y >= display.Height;
         }
+        private Boolean isSameColor(int i, int j)
+        {
+            return Globals.animation[Globals.curFrame][(i * Globals.bitmap.PixelWidth + j) * 4] == Globals.color.B && Globals.animation[Globals.curFrame][(i * Globals.bitmap.PixelWidth + j) * 4 + 1] == Globals.color.G && Globals.animation[Globals.curFrame][(i * Globals.bitmap.PixelWidth + j) * 4 + 2] == Globals.color.R && Globals.animation[Globals.curFrame][(i * Globals.bitmap.PixelWidth + j) * 4 + 3] == Globals.color.A;
+
+        }
         private void editTile()
         {
             if (outOfBounds())
             {
                 return;
             }
-
             topleft = new Point(Math.Floor(curPoint.X / tileSize) * tileSize, Math.Floor(curPoint.Y / tileSize) * tileSize);
+            if (isSameColor((int)topleft.Y, (int)topleft.X))
+                return;
             for (int i = (int)topleft.Y; i < (int)topleft.Y + tileSize; i++)
                 for (int j = (int)topleft.X; j < (int)topleft.X + tileSize; j++)
                 {
@@ -234,6 +240,20 @@ namespace Pixel_Book
         private void shiftFrameRight()
         {
             Globals.curFrame = (Globals.curFrame + 1) % Globals.animation.Count;
+            Globals.WriteToDisplay(Globals.curFrame);
+        }
+
+        private void Clear_Click(object sender, RoutedEventArgs e)
+        {
+            Globals.animation[Globals.curFrame] = new byte[4 * (int)(display.Width * display.Height)];
+            Globals.WriteToDisplay(Globals.curFrame);
+        }
+
+        private void Discard_Click(object sender, RoutedEventArgs e)
+        {
+            Globals.animation.RemoveAt(Globals.curFrame);
+            Globals.delay.RemoveAt(Globals.curFrame);
+            Globals.curFrame= ((Globals.curFrame-1+Globals.animation.Count)%Globals.animation.Count);
             Globals.WriteToDisplay(Globals.curFrame);
         }
 
