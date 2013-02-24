@@ -27,6 +27,7 @@ namespace Pixel_Book
     {
         private Point curPoint, topleft;
         private int tileSize;
+        Boolean clickHold;
 
         // Bitmap information
         private WriteableBitmap bitmap;
@@ -39,6 +40,7 @@ namespace Pixel_Book
             Application.Current.DebugSettings.EnableFrameRateCounter=true;
             Loaded += OnMainPageLoaded;
             bitmap = new WriteableBitmap((int)display.Width, (int)display.Height);
+            clickHold = false;
          }
 
         /// <summary>
@@ -58,7 +60,25 @@ namespace Pixel_Book
 
             tileSize = 12;
         }
-
+        private Boolean outOfBounds()
+        {
+            return curPoint.X < 0 || curPoint.X >= display.Width || curPoint.Y < 0 || curPoint.Y >= display.Height;
+        }
+        private void editTile()
+        {
+            if (outOfBounds())
+                return;
+            topleft = new Point(Math.Floor(curPoint.X / tileSize) * tileSize, Math.Floor(curPoint.Y / tileSize) * tileSize);
+            for (int i = (int)topleft.Y; i < (int)topleft.Y + tileSize; i++)
+                for (int j = (int)topleft.X; j < (int)topleft.X + tileSize; j++)
+                {
+                    pixels[(i * bitmap.PixelWidth + j) * 4] = 255;
+                    pixels[(i * bitmap.PixelWidth + j) * 4 + 1] = 255;
+                    pixels[(i * bitmap.PixelWidth + j) * 4 + 2] = 255;
+                    pixels[(i * bitmap.PixelWidth + j) * 4 + 3] = 255;
+                }
+            WriteToDisplay();
+        }
         private void WriteToDisplay()
         {
             // Transfer the pixels to the bitmap
@@ -74,17 +94,22 @@ namespace Pixel_Book
 
         private void display_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
+            clickHold = true;
             curPoint = e.GetCurrentPoint(display).Position;
-            topleft = new Point(Math.Floor(curPoint.X / tileSize) * tileSize, Math.Floor(curPoint.Y / tileSize) * tileSize);
-            for (int i = (int)topleft.Y; i < (int)topleft.Y + tileSize; i++)
-                for (int j = (int)topleft.X; j < (int)topleft.X + tileSize; j++)
-                {
-                    pixels[(i * bitmap.PixelWidth + j) * 4] = 255;
-                    pixels[(i * bitmap.PixelWidth + j) * 4 + 1] = 255;
-                    pixels[(i * bitmap.PixelWidth + j) * 4 + 2] = 255;
-                    pixels[(i * bitmap.PixelWidth + j) * 4 + 3] = 255;
-                }
-            WriteToDisplay();
+            editTile();
+        }
+
+        private void display_PointerMoved(object sender, PointerRoutedEventArgs e)
+        {
+            if (!clickHold)
+                return;
+            curPoint = e.GetCurrentPoint(display).Position;
+            editTile();
+        }
+
+        private void Grid_PointerReleased_1(object sender, PointerRoutedEventArgs e)
+        {
+            clickHold = false;
         }
     }
 }

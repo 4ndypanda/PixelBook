@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
-        <Image x:Name="display" HorizontalAlignment="Left" Height="480" VerticalAlignment="Top" Width="1356" Margin="0,160,0,0" PointerPressed="display_PointerPressed"/>
+    <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}" PointerReleased="Grid_PointerReleased_1">
+        <Image x:Name="display" HorizontalAlignment="Left" Height="480" VerticalAlignment="Top" Width="1356" Margin="0,160,0,0" PointerPressed="display_PointerPressed" PointerMoved="display_PointerMoved"/>
     </Grid>
 </Page>
