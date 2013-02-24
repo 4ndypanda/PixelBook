@@ -45,7 +45,11 @@
                         </Button.Background>
                     </Button>
                     <Button x:Name="Undo" Style="{StaticResource UndoAppBarButtonStyle}" Tag="undo" />
-                    <Button x:Name="Clear" Style="{StaticResource DiscardAppBarButtonStyle}" Click="Clear_Click" />
+                    <Button x:Name="clear" AutomationProperties.Name="Pen" Height="88" Width="88" BorderThickness="0" Margin="8,0,8,0" Click="Clear_Click">
+                        <Button.Background>
+                            <ImageBrush ImageSource="Assets/clear.png"/>
+                        </Button.Background>
+                    </Button>
                     <Button x:Name="Discard" Style="{StaticResource DiscardAppBarButtonStyle}" Click="Discard_Click" />
 
                     <Button x:Name="More" Style="{StaticResource MoreAppBarButtonStyle}" Click="More_Click_1"/>

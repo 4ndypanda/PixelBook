@@ -131,6 +131,7 @@
   <ItemGroup>
     <Content Include="Assets\blanktile.png" />
     <Content Include="Assets\blanktile480x1366.png" />
+    <Content Include="Assets\clear.png" />
     <Content Include="Assets\coloricon.png" />
     <Content Include="Assets\Logo.png" />
     <Content Include="Assets\SmallLogo.png" />
