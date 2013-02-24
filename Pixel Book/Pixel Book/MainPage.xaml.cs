@@ -25,7 +25,7 @@ namespace Pixel_Book
     public sealed partial class MainPage : Page
     {
         private Point curPoint, topleft;
-        private int tileSize;
+        private int tileSize = 12;
         Boolean clickHold;
 
         // Bitmap information
@@ -137,7 +137,6 @@ namespace Pixel_Book
                 Globals.delay = new List<long>();
                 Globals.delay.Add(1000);
                 Globals.curFrame = 0;
-                tileSize = 12;
             }
             Globals.WriteToDisplay(Globals.curFrame);
         }
@@ -156,7 +155,7 @@ namespace Pixel_Book
             for (int i = (int)topleft.Y; i < (int)topleft.Y + tileSize; i++)
                 for (int j = (int)topleft.X; j < (int)topleft.X + tileSize; j++)
                 {
-                   Globals.animation[Globals.curFrame][(i * Globals.bitmap.PixelWidth + j) * 4] = Globals.color.B;
+                    Globals.animation[Globals.curFrame][(i * Globals.bitmap.PixelWidth + j) * 4] = Globals.color.B;
                     Globals.animation[Globals.curFrame][(i * Globals.bitmap.PixelWidth + j) * 4 + 1] = Globals.color.G;
                     Globals.animation[Globals.curFrame][(i * Globals.bitmap.PixelWidth + j) * 4 + 2] = Globals.color.R;
                     Globals.animation[Globals.curFrame][(i * Globals.bitmap.PixelWidth + j) * 4 + 3] = Globals.color.A;
