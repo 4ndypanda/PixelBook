@@ -43,7 +43,9 @@ namespace Pixel_Book
             Application.Current.DebugSettings.EnableFrameRateCounter=true;
             Loaded += OnMainPageLoaded;
             Globals.bitmap = new WriteableBitmap((int)display.Width, (int)display.Height);
-            clickHold = false; 
+            clickHold = false;
+            myScrollViewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
+            myScrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
             myScrollViewer.ZoomMode = ZoomMode.Enabled;
             Globals.a = 255;
             Globals.b = 0;
