@@ -67,7 +67,10 @@ namespace Pixel_Book
         private void editTile()
         {
             if (outOfBounds())
+            {
                 return;
+            }
+
             topleft = new Point(Math.Floor(curPoint.X / tileSize) * tileSize, Math.Floor(curPoint.Y / tileSize) * tileSize);
             for (int i = (int)topleft.Y; i < (int)topleft.Y + tileSize; i++)
                 for (int j = (int)topleft.X; j < (int)topleft.X + tileSize; j++)
