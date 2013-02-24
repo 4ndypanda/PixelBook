@@ -35,7 +35,7 @@
                             <ImageBrush ImageSource="Assets/whpenicon4.png"/>
                         </Button.Background>
                     </Button>
-                    <Button x:Name="Color" AutomationProperties.Name="Pen" Height="67" Width="67" BorderThickness="0" Margin="15,0,15,0">
+                    <Button x:Name="Color" AutomationProperties.Name="Pen" Height="67" Width="67" BorderThickness="0" Margin="15,0,15,0" Click="Color_Click">
                         <Button.Background>
                             <ImageBrush ImageSource="Assets/coloricon.png"/>
                         </Button.Background>

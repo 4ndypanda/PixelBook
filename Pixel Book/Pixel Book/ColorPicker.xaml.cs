@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -25,6 +26,11 @@ namespace Pixel_Book
         public ColorPicker()
         {
             this.InitializeComponent();
+
+            RSlider.Value = 1.0 * Globals.r;
+            GSlider.Value = 1.0 * Globals.g;
+            BSlider.Value = 1.0 * Globals.b;
+            ASlider.Value = 1.0 * Globals.a;
         }
 
         public class Popup : PopupHelper<ColorPicker>
@@ -51,6 +57,31 @@ namespace Pixel_Book
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             m_popup.CloseAsync();
+        }
+
+        private void Slider_ValueChangedA(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            Globals.a = Convert.ToByte(ASlider.Value);
+            showColor.Fill = new SolidColorBrush(Globals.color);
+        }
+
+
+        private void Slider_ValueChangedR(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            Globals.r = Convert.ToByte(RSlider.Value);
+            showColor.Fill = new SolidColorBrush(Globals.color);
+        }
+
+        private void Slider_ValueChangedG(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            Globals.g = Convert.ToByte(GSlider.Value);
+            showColor.Fill = new SolidColorBrush(Globals.color);
+        }
+
+        private void Slider_ValueChangedB(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            Globals.b = Convert.ToByte(BSlider.Value);
+            showColor.Fill = new SolidColorBrush(Globals.color);
         }
     }
 }

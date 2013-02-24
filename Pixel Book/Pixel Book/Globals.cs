@@ -7,8 +7,17 @@ using Windows.UI;
 
 namespace Pixel_Book
 {
-    class Globals
+    public static class Globals
     {
-        Color color;
+        public static byte a;
+        public static byte r;
+        public static byte g;
+        public static byte b;
+
+        public static Color color
+        {
+            get { return Color.FromArgb(a, r, g, b); }
+        }
+        
     }
 }

@@ -9,9 +9,13 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <Grid HorizontalAlignment="Center" Background="Gold" VerticalAlignment="Center">
+    <Grid HorizontalAlignment="Center" Background="Black" VerticalAlignment="Center">
         <StackPanel  VerticalAlignment="Center" HorizontalAlignment="Center" AreScrollSnapPointsRegular="True" Margin="20">
-            <TextBlock Text="You can read more here:" FontSize="20" Style="{StaticResource HeaderTextStyle}"/>
+            <Slider x:Name="RSlider" LargeChange="5" Maximum="255" ValueChanged="Slider_ValueChangedR"  />
+            <Slider x:Name="GSlider" LargeChange="5" Maximum="255" ValueChanged="Slider_ValueChangedG" ></Slider>
+            <Slider x:Name="BSlider" LargeChange="5" Maximum="255" ValueChanged="Slider_ValueChangedB" ></Slider>
+            <Slider x:Name="ASlider" LargeChange="5" Maximum="255" ValueChanged="Slider_ValueChangedA" ></Slider>
+            <Rectangle x:Name="showColor" Height="84" Margin="0,0,418,0" Width="266"/>
             <Button Content="Close" Click="Button_Click_1" Margin="0,20,0,0" HorizontalAlignment="Right"/>
         </StackPanel>
     </Grid>

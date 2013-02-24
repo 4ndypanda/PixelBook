@@ -118,8 +118,10 @@ namespace Pixel_Book
             // Get Stream and create array for updating bitmap
             pixelStream = bitmap.PixelBuffer.AsStream();
             pixels = new byte[4 * (int)(display.Width * display.Height)];
-
+            for (int i = 0; i < pixels.Length; i++)
+                pixels[i] = 255;
             tileSize = 12;
+            WriteToDisplay();
         }
         private Boolean outOfBounds()
         {
@@ -136,10 +138,10 @@ namespace Pixel_Book
             for (int i = (int)topleft.Y; i < (int)topleft.Y + tileSize; i++)
                 for (int j = (int)topleft.X; j < (int)topleft.X + tileSize; j++)
                 {
-                    pixels[(i * bitmap.PixelWidth + j) * 4] = 255;
-                    pixels[(i * bitmap.PixelWidth + j) * 4 + 1] = 255;
-                    pixels[(i * bitmap.PixelWidth + j) * 4 + 2] = 255;
-                    pixels[(i * bitmap.PixelWidth + j) * 4 + 3] = 255;
+                    pixels[(i * bitmap.PixelWidth + j) * 4] = Globals.color.B;
+                    pixels[(i * bitmap.PixelWidth + j) * 4 + 1] = Globals.color.G;
+                    pixels[(i * bitmap.PixelWidth + j) * 4 + 2] = Globals.color.R;
+                    pixels[(i * bitmap.PixelWidth + j) * 4 + 3] = Globals.color.A;
                 }
             WriteToDisplay();
         }
@@ -174,6 +176,12 @@ namespace Pixel_Book
         private void Grid_PointerReleased_1(object sender, PointerRoutedEventArgs e)
         {
             clickHold = false;
+        }
+
+        private void Color_Click(object sender, RoutedEventArgs e)
+        {
+            var popup = new ColorPicker.Popup();
+            popup.ShowAsync();
         }
     }
 }
