@@ -60,13 +60,23 @@ namespace Pixel_Book
                 newFrame[i] = 255;
             Globals.animation.Add(newFrame);
             Globals.delay.Add(1000);
-            Globals.curFrame++;
+            Globals.curFrame = Globals.animation.Count - 1;
             Globals.WriteToDisplay(Globals.curFrame);
         }
 
         private void animate_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Animator));
+        }
+
+        private void prevFrame_Click(object sender, RoutedEventArgs e)
+        {
+            shiftFrameLeft();
+        }
+
+        private void nextFrame_Click(object sender, RoutedEventArgs e)
+        {
+            shiftFrameRight();
         }
 
         private void More_Click_1(object sender, RoutedEventArgs e)
@@ -76,8 +86,8 @@ namespace Pixel_Book
 
             StackPanel panel = new StackPanel();
             panel.Background = BottomAppBar1.Background;
-            panel.Height = 140;
-            panel.Width = 180;
+            panel.Height = 180;
+            panel.Width = 200;
 
             Button save = new Button();
             save.Content = "Save";
@@ -100,6 +110,20 @@ namespace Pixel_Book
             newPage.Click += newPage_Click;
             panel.Children.Add(newPage);
 
+            Button prevFrame = new Button();
+            prevFrame.Content = "Previous Frame";
+            prevFrame.Style = (Style)App.Current.Resources["TextButtonStyle"];
+            prevFrame.Margin = new Thickness(20, 5, 20, 5);
+            prevFrame.Click += prevFrame_Click;
+            panel.Children.Add(prevFrame);
+
+            Button nextFrame = new Button();
+            nextFrame.Content = "Next Frame";
+            nextFrame.Style = (Style)App.Current.Resources["TextButtonStyle"];
+            nextFrame.Margin = new Thickness(20, 5, 20, 5);
+            nextFrame.Click += nextFrame_Click;
+            panel.Children.Add(nextFrame);
+            
             Button animate = new Button();
             animate.Content = "Animate";
             animate.Style = (Style)App.Current.Resources["TextButtonStyle"];
@@ -194,5 +218,18 @@ namespace Pixel_Book
             var popup = new ColorPicker.Popup();
             popup.ShowAsync();
         }
+
+        private void shiftFrameLeft()
+        {
+            Globals.curFrame = (Globals.curFrame - 1 + Globals.animation.Count) % Globals.animation.Count;
+            Globals.WriteToDisplay(Globals.curFrame);
+        }
+
+        private void shiftFrameRight()
+        {
+            Globals.curFrame = (Globals.curFrame + 1) % Globals.animation.Count;
+            Globals.WriteToDisplay(Globals.curFrame);
+        }
+
     }
 }
