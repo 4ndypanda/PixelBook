@@ -43,6 +43,67 @@ namespace Pixel_Book
             clickHold = false;
          }
 
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void Load_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void newPage_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void newBook_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void More_Click_1(object sender, RoutedEventArgs e)
+        {
+            Popup popUp = new Popup(); //menu popup
+            popUp.IsLightDismissEnabled = true; //auto hides when the user interacts with another part of the app.
+
+            StackPanel panel = new StackPanel();
+            panel.Background = BottomAppBar1.Background;
+            panel.Height = 140;
+            panel.Width = 180;
+
+            Button save = new Button();
+            save.Content = "Save";
+            save.Style = (Style)App.Current.Resources["TextButtonStyle"];
+            save.Margin = new Thickness(20, 5, 20, 5);
+            save.Click += Save_Click;
+            panel.Children.Add(save);
+
+            Button load = new Button();
+            load.Content = "Load";
+            load.Style = (Style)App.Current.Resources["TextButtonStyle"];
+            load.Margin = new Thickness(20, 5, 20, 5);
+            load.Click += Load_Click;
+            panel.Children.Add(load);
+
+            Button newPage = new Button();
+            newPage.Content = "New Page";
+            newPage.Style = (Style)App.Current.Resources["TextButtonStyle"];
+            newPage.Margin = new Thickness(20, 5, 20, 5);
+            newPage.Click += newPage_Click;
+            panel.Children.Add(newPage);
+
+            Button newBook = new Button();
+            newBook.Content = "New Page";
+            newBook.Style = (Style)App.Current.Resources["TextButtonStyle"];
+            newBook.Margin = new Thickness(20, 5, 20, 5);
+            newBook.Click += newBook_Click;
+            panel.Children.Add(newBook);
+
+            popUp.Child = panel;
+
+            popUp.HorizontalOffset = Window.Current.CoreWindow.Bounds.Right - panel.Width - 4;
+            popUp.VerticalOffset = Window.Current.CoreWindow.Bounds.Bottom - BottomAppBar1.ActualHeight - panel.Height - 4;
+            popUp.IsOpen = true;
+        }
+
         /// <summary>
         /// Invoked when this page is about to be displayed in a Frame.
         /// </summary>
