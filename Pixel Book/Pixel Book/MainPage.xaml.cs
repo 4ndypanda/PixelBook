@@ -15,7 +15,6 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
-
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace Pixel_Book
@@ -30,18 +29,21 @@ namespace Pixel_Book
         Boolean clickHold;
 
         // Bitmap information
-        private WriteableBitmap bitmap;
-        private Stream pixelStream;
-        private byte[] pixels;
+   //     private WriteableBitmap bitmap;
+   //     private Stream pixelStream;
+
+   //     List<byte[]> animation;
+   //     List<long> delay;
+   //     int curFrame;
 
         public MainPage()
         {
             this.InitializeComponent();
             Application.Current.DebugSettings.EnableFrameRateCounter=true;
             Loaded += OnMainPageLoaded;
-            bitmap = new WriteableBitmap((int)display.Width, (int)display.Height);
+            Globals.bitmap = new WriteableBitmap((int)display.Width, (int)display.Height);
             clickHold = false;
-         }
+        }
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
@@ -53,10 +55,18 @@ namespace Pixel_Book
 
         private void newPage_Click(object sender, RoutedEventArgs e)
         {
+            byte [] newFrame = new byte[Globals.animation[Globals.animation.Count - 1].Length];
+            for (int i = 0; i < Globals.animation[Globals.animation.Count - 1].Length; i++)
+                newFrame[i] = 255;
+            Globals.animation.Add(newFrame);
+            Globals.delay.Add(1000);
+            Globals.curFrame++;
+            Globals.WriteToDisplay(Globals.curFrame);
         }
 
-        private void newBook_Click(object sender, RoutedEventArgs e)
+        private void animate_Click(object sender, RoutedEventArgs e)
         {
+            Frame.Navigate(typeof(Animator));
         }
 
         private void More_Click_1(object sender, RoutedEventArgs e)
@@ -90,12 +100,12 @@ namespace Pixel_Book
             newPage.Click += newPage_Click;
             panel.Children.Add(newPage);
 
-            Button newBook = new Button();
-            newBook.Content = "New Page";
-            newBook.Style = (Style)App.Current.Resources["TextButtonStyle"];
-            newBook.Margin = new Thickness(20, 5, 20, 5);
-            newBook.Click += newBook_Click;
-            panel.Children.Add(newBook);
+            Button animate = new Button();
+            animate.Content = "Animate";
+            animate.Style = (Style)App.Current.Resources["TextButtonStyle"];
+            animate.Margin = new Thickness(20, 5, 20, 5);
+            animate.Click += animate_Click;
+            panel.Children.Add(animate);
 
             popUp.Child = panel;
 
@@ -113,15 +123,23 @@ namespace Pixel_Book
         private void OnMainPageLoaded(object sender, RoutedEventArgs args)
         {
             // Set the bitmap to the Image element
-            display.Source = bitmap;
+            display.Source = Globals.bitmap;
 
             // Get Stream and create array for updating bitmap
-            pixelStream = bitmap.PixelBuffer.AsStream();
-            pixels = new byte[4 * (int)(display.Width * display.Height)];
-            for (int i = 0; i < pixels.Length; i++)
-                pixels[i] = 255;
-            tileSize = 12;
-            WriteToDisplay();
+            Globals.pixelStream = Globals.bitmap.PixelBuffer.AsStream();
+            if (Globals.animation == null)
+            {
+                byte[] pixels = new byte[4 * (int)(display.Width * display.Height)];
+                for (int i = 0; i < pixels.Length; i++)
+                    pixels[i] = 255;
+                Globals.animation = new List<byte[]>();
+                Globals.animation.Add(pixels);
+                Globals.delay = new List<long>();
+                Globals.delay.Add(1000);
+                Globals.curFrame = 0;
+                tileSize = 12;
+            }
+            Globals.WriteToDisplay(Globals.curFrame);
         }
         private Boolean outOfBounds()
         {
@@ -138,20 +156,14 @@ namespace Pixel_Book
             for (int i = (int)topleft.Y; i < (int)topleft.Y + tileSize; i++)
                 for (int j = (int)topleft.X; j < (int)topleft.X + tileSize; j++)
                 {
-                    pixels[(i * bitmap.PixelWidth + j) * 4] = Globals.color.B;
-                    pixels[(i * bitmap.PixelWidth + j) * 4 + 1] = Globals.color.G;
-                    pixels[(i * bitmap.PixelWidth + j) * 4 + 2] = Globals.color.R;
-                    pixels[(i * bitmap.PixelWidth + j) * 4 + 3] = Globals.color.A;
+                   Globals.animation[Globals.curFrame][(i * Globals.bitmap.PixelWidth + j) * 4] = Globals.color.B;
+                    Globals.animation[Globals.curFrame][(i * Globals.bitmap.PixelWidth + j) * 4 + 1] = Globals.color.G;
+                    Globals.animation[Globals.curFrame][(i * Globals.bitmap.PixelWidth + j) * 4 + 2] = Globals.color.R;
+                    Globals.animation[Globals.curFrame][(i * Globals.bitmap.PixelWidth + j) * 4 + 3] = Globals.color.A;
                 }
-            WriteToDisplay();
+            Globals.WriteToDisplay(Globals.curFrame);
         }
-        private void WriteToDisplay()
-        {
-            // Transfer the pixels to the bitmap
-            pixelStream.Seek(0, SeekOrigin.Begin);
-            pixelStream.Write(pixels, 0, pixels.Length);
-            bitmap.Invalidate();
-        }
+
         
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {

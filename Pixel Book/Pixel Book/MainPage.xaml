@@ -8,7 +8,7 @@
     mc:Ignorable="d">
 
     <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}" PointerReleased="Grid_PointerReleased_1">
-        <Image x:Name="display" HorizontalAlignment="Left" Height="480" VerticalAlignment="Top" Width="1356" Margin="0,160,0,0" PointerPressed="display_PointerPressed" PointerMoved="display_PointerMoved"/>
+        <Image x:Name="display" HorizontalAlignment="Left" Height="480" VerticalAlignment="Top" Width="1366" Margin="0,160,0,0" PointerPressed="display_PointerPressed" PointerMoved="display_PointerMoved"/>
     </Grid>
     <Page.TopAppBar>
         <AppBar x:Name="TopAppBar_Preview" IsSticky="True">
