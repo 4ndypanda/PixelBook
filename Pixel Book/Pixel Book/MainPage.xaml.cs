@@ -28,6 +28,7 @@ namespace Pixel_Book
         private Point curPoint, topleft;
         private int tileSize = 12;
         Boolean clickHold;
+        Boolean gridOn;
 
         // Bitmap information
    //     private WriteableBitmap bitmap;
@@ -51,6 +52,7 @@ namespace Pixel_Book
             Globals.b = 0;
             Globals.r = 0;
             Globals.g = 0;
+            gridOn = true;
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)
@@ -64,12 +66,14 @@ namespace Pixel_Book
         private void newPage_Click(object sender, RoutedEventArgs e)
         {
             byte [] newFrame = new byte[Globals.animation[Globals.animation.Count - 1].Length];
- //          for (int i = 0; i < Globals.animation[Globals.animation.Count - 1].Length; i++)
- //            newFrame[i] = 0;
+           for (int i = 0; i < Globals.animation[Globals.animation.Count - 1].Length; i++)
+             newFrame[i] = 255;
             Globals.animation.Add(newFrame);
-            Globals.delay.Add(1000);
+            Globals.delay.Add(300);
             Globals.curFrame = Globals.animation.Count - 1;
             Globals.WriteToDisplay(Globals.curFrame);
+            TotalPage.Text = (Globals.curFrame + 1) + "/" + Globals.animation.Count + "";
+
         }
 
         private void animate_Click(object sender, RoutedEventArgs e)
@@ -86,7 +90,7 @@ namespace Pixel_Book
         {
             shiftFrameRight();
         }
-
+  
         private void More_Click_1(object sender, RoutedEventArgs e)
         {
             Popup popUp = new Popup(); //menu popup
@@ -94,7 +98,7 @@ namespace Pixel_Book
 
             StackPanel panel = new StackPanel();
             panel.Background = BottomAppBar1.Background;
-            panel.Height = 180;
+            panel.Height = 200;
             panel.Width = 200;
 
             Button save = new Button();
@@ -139,6 +143,13 @@ namespace Pixel_Book
             animate.Click += animate_Click;
             panel.Children.Add(animate);
 
+  /*          Button toggle = new Button();
+            toggle.Content = "Toggle Background";
+            toggle.Style = (Style)App.Current.Resources["TextButtonStyle"];
+            toggle.Margin = new Thickness(20, 5, 20, 5);
+            toggle.Click += toggle_Click;
+            panel.Children.Add(toggle);
+*/
             popUp.Child = panel;
 
             popUp.HorizontalOffset = Window.Current.CoreWindow.Bounds.Right - panel.Width - 4;
@@ -162,8 +173,8 @@ namespace Pixel_Book
             if (Globals.animation == null)
             {
                 byte[] pixels = new byte[4 * (int)(display.Width * display.Height)];
-     //           for (int i = 0; i < pixels.Length; i++)
-     //               pixels[i] = 255;
+                for (int i = 0; i < pixels.Length; i++)
+                    pixels[i] = 255;
                 Globals.animation = new List<byte[]>();
                 Globals.animation.Add(pixels);
                 Globals.delay = new List<long>();
@@ -237,18 +248,23 @@ namespace Pixel_Book
         {
             Globals.curFrame = (Globals.curFrame - 1 + Globals.animation.Count) % Globals.animation.Count;
             Globals.WriteToDisplay(Globals.curFrame);
+            TotalPage.Text = (Globals.curFrame + 1) + "/" + Globals.animation.Count + "";
+
         }
 
         private void shiftFrameRight()
         {
             Globals.curFrame = (Globals.curFrame + 1) % Globals.animation.Count;
             Globals.WriteToDisplay(Globals.curFrame);
+            TotalPage.Text = (Globals.curFrame + 1) + "/" + Globals.animation.Count + "";
+
         }
 
         private void Clear_Click(object sender, RoutedEventArgs e)
         {
             Globals.animation[Globals.curFrame] = new byte[4 * (int)(display.Width * display.Height)];
             Globals.WriteToDisplay(Globals.curFrame);
+
         }
 
         private void Discard_Click(object sender, RoutedEventArgs e)
@@ -257,7 +273,19 @@ namespace Pixel_Book
             Globals.delay.RemoveAt(Globals.curFrame);
             Globals.curFrame= ((Globals.curFrame-1+Globals.animation.Count)%Globals.animation.Count);
             Globals.WriteToDisplay(Globals.curFrame);
+            TotalPage.Text = (Globals.curFrame + 1) + "/" + Globals.animation.Count + "";
+
+        }
+        private void TotalPage_Loaded(object sender, RoutedEventArgs e)
+        {
+
+            TotalPage.Text = (Globals.curFrame+1)+"/"+Globals.animation.Count+"";
+
         }
 
+        private void CurrentPage_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Globals.delay[Globals.curFrame] = Convert.ToInt32(Delay.Text);
+        }
     }
 }

@@ -55,7 +55,7 @@ namespace Pixel_Book
                 if (i == Globals.animation.Count - 1)
                 {
                     i = -1;
-                    await Task.Delay(3000);
+                    await Task.Delay(500);
                 }
             }
         }

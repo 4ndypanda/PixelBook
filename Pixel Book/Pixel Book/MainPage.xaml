@@ -9,7 +9,7 @@
 
     <ScrollViewer x:Name="myScrollViewer" RenderTransformOrigin="0.5,0.5">
         <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}" PointerReleased="Grid_PointerReleased_1">
-            <Image x:Name="bg" HorizontalAlignment="Center" Height="479" Margin="2,161,0,0" VerticalAlignment="Top" Width="1367" Source="Assets/blanktile480x1366.png"/>
+       
             <Image x:Name="display" HorizontalAlignment="Left" Height="480" VerticalAlignment="Top" Width="1366" Margin="0,160,0,0" PointerPressed="display_PointerPressed" PointerMoved="display_PointerMoved"/>
         </Grid>
     </ScrollViewer>
@@ -23,17 +23,21 @@
         <AppBar x:Name="BottomAppBar1" IsSticky="True">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="50*"/>
-                    <ColumnDefinition Width="50*"/>
+                    <ColumnDefinition Width="321*"/>
+                    <ColumnDefinition Width="352*"/>
                 </Grid.ColumnDefinitions>
-                <StackPanel x:Name="LeftPanel" Orientation="Horizontal" Grid.Column="0" HorizontalAlignment="Left">
+                <StackPanel x:Name="LeftPanel" Orientation="Horizontal" Grid.Column="0" HorizontalAlignment="Left" Width="124">
+                    <TextBox x:Name="Delay" Opacity="100" Height="44" Width="60" TextChanged="CurrentPage_TextChanged" Background="Black" InputScope="Number" Foreground="White"/>
+
+                    <TextBlock x:Name="TotalPage"  Opacity="100" Height="44" Width="60" Loaded="TotalPage_Loaded" FontSize="30"/>
+
                     <StackPanel.ChildrenTransitions>
                         <TransitionCollection>
                             <AddDeleteThemeTransition/>
                         </TransitionCollection>
                     </StackPanel.ChildrenTransitions>
                 </StackPanel>
-                <StackPanel x:Name="RightPanel" Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
+                <StackPanel x:Name="RightPanel" Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right" Width="586">
                     <Button x:Name="Pen" AutomationProperties.Name="Pen" Height="65" Width="65" BorderThickness="0" Margin=" 0, 0, 20, 0">
                         <Button.Background>
                             <ImageBrush ImageSource="Assets/whpenicon4.png"/>

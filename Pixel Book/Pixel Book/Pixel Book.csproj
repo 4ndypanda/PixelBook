@@ -135,7 +135,10 @@
     <Content Include="Assets\coloricon.png" />
     <Content Include="Assets\Logo.png" />
     <Content Include="Assets\SmallLogo.png" />
+    <Content Include="Assets\splash %281%29.png" />
+    <Content Include="Assets\splash.png" />
     <Content Include="Assets\SplashScreen.png" />
+    <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\whpenicon4.png" />
   </ItemGroup>
