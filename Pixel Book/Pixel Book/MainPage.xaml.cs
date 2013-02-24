@@ -23,7 +23,7 @@ namespace Pixel_Book
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class MainPage // : GesturePageBase
     {
         private Point curPoint, topleft;
         private int tileSize;
@@ -37,6 +37,7 @@ namespace Pixel_Book
         public MainPage()
         {
             this.InitializeComponent();
+     
             Application.Current.DebugSettings.EnableFrameRateCounter=true;
             Loaded += OnMainPageLoaded;
             bitmap = new WriteableBitmap((int)display.Width, (int)display.Height);
@@ -175,5 +176,22 @@ namespace Pixel_Book
         {
             clickHold = false;
         }
+
+        private void Preview_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+        {
+
+        }
+
+        private void TotalPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            //put total # of pages
+        }
+ /*       private void Pen_PointerEntered_1(object sender, PointerRoutedEventArgs e)
+        {
+            ImageSource hovered = new ImageSource();
+            Pen.
+            hovered.Assets/whpeniconHover.png");
+            //Pen.Background
+        }  */
     }
 }

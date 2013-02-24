@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Pixel_Book"
+    xmlns:controls="using:Pixel_Book.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
@@ -12,25 +13,30 @@
     </Grid>
     <Page.TopAppBar>
         <AppBar x:Name="TopAppBar_Preview" IsSticky="True">
-            <ListView x:Name="Preview" HorizontalAlignment="Left" Height="100" Width="1346"/>
+            <ListView x:Name="Preview"  VerticalAlignment="Center" HorizontalAlignment="Left" Height="100" Width="1346" ManipulationMode="TranslateRailsX" ManipulationCompleted="Preview_ManipulationCompleted">
+                <ScrollViewer Height="100" Width="100"/>
+            </ListView>
         </AppBar>
     </Page.TopAppBar>
     <Page.BottomAppBar>
         <AppBar x:Name="BottomAppBar1" IsSticky="True">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="50*"/>
-                    <ColumnDefinition Width="50*"/>
+                    <ColumnDefinition Width="459*"/>
+                    <ColumnDefinition Width="887*"/>
                 </Grid.ColumnDefinitions>
-                <StackPanel x:Name="LeftPanel" Orientation="Horizontal" Grid.Column="0" HorizontalAlignment="Left">
+                <StackPanel x:Name="LeftPanel" Orientation="Horizontal" Grid.Column="0" HorizontalAlignment="Left" Width="128">
+                    <TextBox x:Name="CurrentPage" Height="44" Width="60" Text="hello" BorderBrush="#FFC52B2B" Foreground="#FFBD2828"/>
+                    <TextBlock x:Name="TotalPage"  Opacity="0" Height="44" Width="60" Loaded="TotalPage_Loaded"/>
                     <StackPanel.ChildrenTransitions>
                         <TransitionCollection>
                             <AddDeleteThemeTransition/>
                         </TransitionCollection>
                     </StackPanel.ChildrenTransitions>
                 </StackPanel>
-                <StackPanel x:Name="RightPanel" Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
+                <StackPanel x:Name="RightPanel" Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right" Width="686">
                     <Button x:Name="Pen" AutomationProperties.Name="Pen" Height="65" Width="65" BorderThickness="0" Margin=" 0, 0, 20, 0">
+                        
                         <Button.Background>
                             <ImageBrush ImageSource="Assets/whpenicon4.png"/>
                         </Button.Background>
@@ -40,7 +46,20 @@
                             <ImageBrush ImageSource="Assets/coloricon.png"/>
                         </Button.Background>
                     </Button>
+                    <Button x:Name="Fill" AutomationProperties.Name="Pen" Height="88" Width="88" BorderThickness="0" Margin="8,0,8,0">
+
+                        <Button.Background>
+                            <ImageBrush ImageSource="Assets/fill.png"/>
+                        </Button.Background>
+                    </Button>
                     <Button x:Name="Undo" Style="{StaticResource UndoAppBarButtonStyle}" Tag="undo" />
+                    <Button x:Name="Redo" Style="{StaticResource RedoAppBarButtonStyle}" />
+                    <Button x:Name="clear" AutomationProperties.Name="Pen" Height="88" Width="88" BorderThickness="0" Margin="8,0,8,0">
+
+                        <Button.Background>
+                            <ImageBrush ImageSource="Assets/clear.png"/>
+                        </Button.Background>
+                    </Button>
                     <Button x:Name="Discard" Style="{StaticResource DiscardAppBarButtonStyle}" />
                     <Button x:Name="More" Style="{StaticResource MoreAppBarButtonStyle}" Click="More_Click_1"/>
                     <StackPanel.ChildrenTransitions>
@@ -53,3 +72,4 @@
         </AppBar>
     </Page.BottomAppBar>
 </Page>
+
