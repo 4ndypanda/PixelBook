@@ -263,6 +263,8 @@ namespace Pixel_Book
         private void Clear_Click(object sender, RoutedEventArgs e)
         {
             Globals.animation[Globals.curFrame] = new byte[4 * (int)(display.Width * display.Height)];
+            for (int i = 0; i < Globals.animation[Globals.animation.Count - 1].Length; i++)
+                Globals.animation[Globals.curFrame][i] = 255;
             Globals.WriteToDisplay(Globals.curFrame);
 
         }
