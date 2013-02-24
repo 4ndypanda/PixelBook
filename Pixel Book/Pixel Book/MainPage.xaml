@@ -7,9 +7,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}" PointerReleased="Grid_PointerReleased_1">
-        <Image x:Name="display" HorizontalAlignment="Left" Height="480" VerticalAlignment="Top" Width="1366" Margin="0,160,0,0" PointerPressed="display_PointerPressed" PointerMoved="display_PointerMoved"/>
-    </Grid>
+    <ScrollViewer x:Name="myScrollViewer" RenderTransformOrigin="0.5,0.5">
+        <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}" PointerReleased="Grid_PointerReleased_1">
+            <Image x:Name="bg" HorizontalAlignment="Right" Height="480" Margin="0,160,0,0" VerticalAlignment="Top" Width="1366" Source="Assets/blanktile480x1366.png"/>
+            <Image x:Name="display" HorizontalAlignment="Left" Height="480" VerticalAlignment="Top" Width="1366" Margin="0,160,0,0" PointerPressed="display_PointerPressed" PointerMoved="display_PointerMoved"/>
+        </Grid>
+    </ScrollViewer>
+
     <Page.TopAppBar>
         <AppBar x:Name="TopAppBar_Preview" IsSticky="True">
             <ListView x:Name="Preview" HorizontalAlignment="Left" Height="100" Width="1346"/>

@@ -7,6 +7,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -42,7 +43,12 @@ namespace Pixel_Book
             Application.Current.DebugSettings.EnableFrameRateCounter=true;
             Loaded += OnMainPageLoaded;
             Globals.bitmap = new WriteableBitmap((int)display.Width, (int)display.Height);
-            clickHold = false;
+            clickHold = false; 
+            myScrollViewer.ZoomMode = ZoomMode.Enabled;
+            Globals.a = 255;
+            Globals.b = 0;
+            Globals.r = 0;
+            Globals.g = 0;
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)
@@ -56,8 +62,8 @@ namespace Pixel_Book
         private void newPage_Click(object sender, RoutedEventArgs e)
         {
             byte [] newFrame = new byte[Globals.animation[Globals.animation.Count - 1].Length];
-            for (int i = 0; i < Globals.animation[Globals.animation.Count - 1].Length; i++)
-                newFrame[i] = 255;
+ //          for (int i = 0; i < Globals.animation[Globals.animation.Count - 1].Length; i++)
+ //            newFrame[i] = 0;
             Globals.animation.Add(newFrame);
             Globals.delay.Add(1000);
             Globals.curFrame = Globals.animation.Count - 1;
@@ -154,8 +160,8 @@ namespace Pixel_Book
             if (Globals.animation == null)
             {
                 byte[] pixels = new byte[4 * (int)(display.Width * display.Height)];
-                for (int i = 0; i < pixels.Length; i++)
-                    pixels[i] = 255;
+     //           for (int i = 0; i < pixels.Length; i++)
+     //               pixels[i] = 255;
                 Globals.animation = new List<byte[]>();
                 Globals.animation.Add(pixels);
                 Globals.delay = new List<long>();
